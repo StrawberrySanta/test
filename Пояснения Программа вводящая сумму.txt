@@ -1,0 +1,39 @@
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+@app.route('/user/<username>')
+def user(username):
+    return f'User {username}'
+  
+@app.route('/hello/<name>')
+def hello(name):
+    return render_template('hello.html',name = name)
+  
+  
+#обработка get запроса
+@app.route('/greet/<name>')
+def greet(name):
+  return f'Hello, {name}!'
+
+#обработка post запроса
+
+@app.route('/sum', methods=['GET', 'POST'])
+def Sum():
+
+   if request.method == 'POST':
+       first_num = request.form.get('first_num')
+       second_num = request.form.get('second_num')
+
+       return str(int(first_num) + int(second_num))
+
+   return '''
+             <form method="POST">
+                 <div><label>first_num: <input type="int" name="first_num"></label></div>
+                 <div><label>second_num: <input type="int" name="second_num"></label></div>
+                 <input type="submit" value="Enter">
+             </form>''' 
+
+if __name__ == '__main__':
+    app.run(debug=True)
+    
